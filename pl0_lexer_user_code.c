@@ -68,6 +68,7 @@ void lexer_print_token(enum yytokentype t, unsigned int tline,
 }
 
 
+
 /* Read all the tokens from the input file
  * and print each token on standard output
  * using the format in lexer_print_token */

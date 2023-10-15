@@ -77,19 +77,19 @@ static void number2ast(unsigned int val)
 
 %%
 
-/* fill in the rules for your lexer here! */
+ /* fill in the rules for your lexer here! */
 
-/* $Id: pl0_lexer_user_code.c,v 1.3 2023/10/06 11:12:37 leavens Exp leavens $ */
+ /* $Id: pl0_lexer_user_code.c,v 1.3 2023/10/06 11:12:37 leavens Exp leavens $ */
 
 %% 
 
-/* This code goes in the user code section of the pl0_lexer.l file,
+ /* This code goes in the user code section of the pl0_lexer.l file,
    following the last %% above. */
 
-// Requires: fname != NULL
-// Requires: fname is the name of a readable file
-// Initialize the lexer and start it reading
-// from the given file name
+ // Requires: fname != NULL
+ // Requires: fname is the name of a readable file
+ // Initialize the lexer and start it reading
+ // from the given file name
 void lexer_init(char *fname)
 {
     errors_noted = false;
@@ -100,8 +100,8 @@ void lexer_init(char *fname)
     filename = fname;
 }
 
-// Close the file yyin
-// and return 0 to indicate that there are no more files
+ // Close the file yyin
+ // and return 0 to indicate that there are no more files
 int yywrap() {
     if (yyin != NULL) {
 	int rc = fclose(yyin);
@@ -113,17 +113,17 @@ int yywrap() {
     return 1;  /* no more input */
 }
 
-// Return the name of the current input file
+ // Return the name of the current input file
 const char *lexer_filename() {
     return filename;
 }
 
-// Return the line number of the next token
+ // Return the line number of the next token
 unsigned int lexer_line() {
     return yylineno;
 }
 
-/* Report an error to the user on stderr */
+ /* Report an error to the user on stderr */
 void yyerror(const char *filename, const char *msg)
 {
     fflush(stdout);
@@ -131,17 +131,17 @@ void yyerror(const char *filename, const char *msg)
     errors_noted = true;
 }
 
-// On standard output:
-// Print a message about the file name of the lexer's input
-// and then print a heading for the lexer's output.
+ // On standard output:
+ // Print a message about the file name of the lexer's input
+ // and then print a heading for the lexer's output.
 void lexer_print_output_header()
 {
     printf("Tokens from file %s\n", lexer_filename());
     printf("%-6s %-4s  %s\n", "Number", "Line", "Text");
 }
 
-// Print information about the token t to stdout
-// followed by a newline
+ // Print information about the token t to stdout
+ // followed by a newline
 void lexer_print_token(enum yytokentype t, unsigned int tline,
 		       const char *txt)
 {
@@ -149,7 +149,7 @@ void lexer_print_token(enum yytokentype t, unsigned int tline,
 }
 
 
-/* Read all the tokens from the input file
+ /* Read all the tokens from the input file
  * and print each token on standard output
  * using the format in lexer_print_token */
 void lexer_output()

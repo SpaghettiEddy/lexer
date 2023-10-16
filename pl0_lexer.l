@@ -78,7 +78,7 @@ NUMBER          {DIGIT}({DIGIT}*)
 DIGIT           [0-9]
 LETTERORDIGIT   ({LETTER|DIGIT})
 IGNORED         ({BLANK|TAB|VT|FORMFEED|EOL|COMMENT})
-BLANK           [ ] /*could be wrong*/
+BLANK           [ ] /* could be wrong */
 TAB             \t
 VT              \v
 FORMFEED        \f
@@ -95,6 +95,10 @@ NONNL           .
 %%
 
  /* fill in the rules for your lexer here! */
+
+{IGNORED}       { ; } /* do nothing */
+{COMMENT}       { ; } /* ignore comments */
+{EOL}           { ; } /* ignore EOL outside of the above states */
 
 +           { tok2ast(plussym); return plussym; } 
 -           { tok2ast(minussym); return minussym; }
@@ -127,6 +131,10 @@ odd         { tok2ast(oddsym); return oddsym; }
 >=          { tok2ast(geqsym); return geqsym; }
 (           { tok2ast(lparensym); return lparensym; }
 )           { tok2ast(rparensym); return rparensym; }
+
+{IDENT}         { ident2ast(yytext); return identsym; }
+
+.           { char msgbuf[128]; sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext); yyerror(lexer_filename(), msgbuf);}
 
 
  /* $Id: pl0_lexer_user_code.c,v 1.3 2023/10/06 11:12:37 leavens Exp leavens $ */

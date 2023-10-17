@@ -68,6 +68,25 @@ static void number2ast(unsigned int val)
     yylval = t;
 }
 
+// int yylexToInt(char * num) {
+//     int len = 0;
+//     if (num == NULL) return 0;
+//     char c = num[0];
+//     while (c != '\0') {
+//         c = num[++len];
+//     }
+//     int max = INT_MAX;
+//     int mult = 1;
+    
+//     for (int i = len - 1; i >= 0; i--) {
+//         char temp = num[i] - '0'; // get the current digit
+//         max -= temp * mult; // multipy it by 10^i
+//         if (max < 0) return 0; // if max is less than 0, it's bigger than int max
+//         mult *= 10; // work for 2 lines higher
+//     }
+//     return INT_MAX - max;
+// }
+
 %}
 
   /* you can add actual definitions below */
@@ -128,7 +147,7 @@ odd          { tok2ast(oddsym); return oddsym; }
 \>=          { tok2ast(geqsym); return geqsym; }
 \(           { tok2ast(lparensym); return lparensym; }
 \)           { tok2ast(rparensym); return rparensym; }
-{NUMBER}     { number2ast(yytext); return numbersym; }
+{NUMBER}     { number2ast(yylexToInt(yytext)); return numbersym; }
 {IDENT}      { ident2ast(yytext); return identsym; }
 .   { char msgbuf[512];
       sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext);

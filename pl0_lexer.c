@@ -603,12 +603,32 @@ static void number2ast(unsigned int val)
     yylval = t;
 }
 
-#line 607 "pl0_lexer.c"
-#line 74 "pl0_lexer.l"
+int yylexToInt(char * num) {
+    printf("yay!\n");
+    int len = 0;
+    if (num == NULL) return 0;
+    char c = num[0];
+    while (c != '\0') {
+        c = num[++len];
+    }
+    int max = INT_MAX;
+    int mult = 1;
+    
+    for (int i = len - 1; i >= 0; i--) {
+        char temp = num[i] - '0'; // get the current digit
+        max -= temp * mult; // multipy it by 10^i
+        if (max < 0) return 0; // if max is less than 0, it's bigger than int max
+        mult *= 10; // work for 2 lines higher
+    }
+    return INT_MAX - max;
+}
+
+#line 627 "pl0_lexer.c"
+#line 94 "pl0_lexer.l"
   /* you can add actual definitions below */
  /* could be wrong */
   /* the rules section starts after the %% below */
-#line 612 "pl0_lexer.c"
+#line 632 "pl0_lexer.c"
 
 #define INITIAL 0
 
@@ -835,10 +855,10 @@ YY_DECL
 		}
 
 	{
-#line 97 "pl0_lexer.l"
+#line 117 "pl0_lexer.l"
 
   /* fill in the rules for your lexer here! */
-#line 842 "pl0_lexer.c"
+#line 862 "pl0_lexer.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -908,183 +928,183 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 99 "pl0_lexer.l"
+#line 119 "pl0_lexer.l"
 { ; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 100 "pl0_lexer.l"
+#line 120 "pl0_lexer.l"
 { ; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 101 "pl0_lexer.l"
+#line 121 "pl0_lexer.l"
 { tok2ast(plussym); return plussym; } 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 102 "pl0_lexer.l"
+#line 122 "pl0_lexer.l"
 { tok2ast(minussym); return minussym; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 103 "pl0_lexer.l"
+#line 123 "pl0_lexer.l"
 { tok2ast(multsym); return multsym; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 104 "pl0_lexer.l"
+#line 124 "pl0_lexer.l"
 { tok2ast(divsym); return divsym; } 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 105 "pl0_lexer.l"
+#line 125 "pl0_lexer.l"
 { tok2ast(periodsym); return periodsym; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 106 "pl0_lexer.l"
+#line 126 "pl0_lexer.l"
 { tok2ast(semisym); return semisym; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 107 "pl0_lexer.l"
+#line 127 "pl0_lexer.l"
 { tok2ast(eqsym); return eqsym; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 108 "pl0_lexer.l"
+#line 128 "pl0_lexer.l"
 { tok2ast(commasym); return commasym; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 109 "pl0_lexer.l"
+#line 129 "pl0_lexer.l"
 { tok2ast(becomessym); return becomessym; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 110 "pl0_lexer.l"
+#line 130 "pl0_lexer.l"
 { tok2ast(constsym); return constsym; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 111 "pl0_lexer.l"
+#line 131 "pl0_lexer.l"
 { tok2ast(varsym); return varsym; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 112 "pl0_lexer.l"
+#line 132 "pl0_lexer.l"
 { tok2ast(proceduresym); return proceduresym; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 113 "pl0_lexer.l"
+#line 133 "pl0_lexer.l"
 { tok2ast(callsym); return callsym; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 114 "pl0_lexer.l"
+#line 134 "pl0_lexer.l"
 { tok2ast(beginsym); return beginsym; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 115 "pl0_lexer.l"
+#line 135 "pl0_lexer.l"
 { tok2ast(endsym); return endsym; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 116 "pl0_lexer.l"
+#line 136 "pl0_lexer.l"
 { tok2ast(ifsym); return ifsym; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 117 "pl0_lexer.l"
+#line 137 "pl0_lexer.l"
 { tok2ast(thensym); return thensym; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 118 "pl0_lexer.l"
+#line 138 "pl0_lexer.l"
 { tok2ast(elsesym); return elsesym; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 119 "pl0_lexer.l"
+#line 139 "pl0_lexer.l"
 { tok2ast(whilesym); return whilesym; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 120 "pl0_lexer.l"
+#line 140 "pl0_lexer.l"
 { tok2ast(dosym); return dosym; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 121 "pl0_lexer.l"
+#line 141 "pl0_lexer.l"
 { tok2ast(readsym); return readsym; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 122 "pl0_lexer.l"
+#line 142 "pl0_lexer.l"
 { tok2ast(writesym); return writesym; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 123 "pl0_lexer.l"
+#line 143 "pl0_lexer.l"
 { tok2ast(skipsym); return skipsym; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 124 "pl0_lexer.l"
+#line 144 "pl0_lexer.l"
 { tok2ast(oddsym); return oddsym; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 125 "pl0_lexer.l"
+#line 145 "pl0_lexer.l"
 { tok2ast(neqsym); return neqsym; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 126 "pl0_lexer.l"
+#line 146 "pl0_lexer.l"
 { tok2ast(ltsym); return ltsym; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 127 "pl0_lexer.l"
+#line 147 "pl0_lexer.l"
 { tok2ast(leqsym); return leqsym; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 128 "pl0_lexer.l"
+#line 148 "pl0_lexer.l"
 { tok2ast(gtsym); return gtsym; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 129 "pl0_lexer.l"
+#line 149 "pl0_lexer.l"
 { tok2ast(geqsym); return geqsym; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 130 "pl0_lexer.l"
+#line 150 "pl0_lexer.l"
 { tok2ast(lparensym); return lparensym; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 131 "pl0_lexer.l"
+#line 151 "pl0_lexer.l"
 { tok2ast(rparensym); return rparensym; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 132 "pl0_lexer.l"
-{ number2ast(yytext); return numbersym; }
+#line 152 "pl0_lexer.l"
+{ number2ast(yylexToInt(yytext)); return numbersym; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 133 "pl0_lexer.l"
+#line 153 "pl0_lexer.l"
 { ident2ast(yytext); return identsym; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 134 "pl0_lexer.l"
+#line 154 "pl0_lexer.l"
 { char msgbuf[512];
       sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext);
       yyerror(lexer_filename(), msgbuf);
@@ -1092,10 +1112,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 138 "pl0_lexer.l"
+#line 158 "pl0_lexer.l"
 ECHO;
 	YY_BREAK
-#line 1099 "pl0_lexer.c"
+#line 1119 "pl0_lexer.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2112,7 +2132,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 138 "pl0_lexer.l"
+#line 158 "pl0_lexer.l"
 
 
  /* This code goes in the user code section of the pl0_lexer.l file,

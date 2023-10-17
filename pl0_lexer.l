@@ -117,7 +117,7 @@ then         { tok2ast(thensym); return thensym; }
 else         { tok2ast(elsesym); return elsesym; }
 while        { tok2ast(whilesym); return whilesym; }
 do           { tok2ast(dosym); return dosym; }
-read         { tok2ast(read); return read; }
+read         { tok2ast(readsym); return readsym; }
 write        { tok2ast(writesym); return writesym; }
 skip         { tok2ast(skipsym); return skipsym; }
 odd          { tok2ast(oddsym); return oddsym; }
@@ -125,7 +125,7 @@ odd          { tok2ast(oddsym); return oddsym; }
 \<           { tok2ast(ltsym); return ltsym; }
 \<=          { tok2ast(leqsym); return leqsym; }
 \>           { tok2ast(gtsym); return gtsym; }
->=           { tok2ast(geqsym); return geqsym; }
+\>=           { tok2ast(geqsym); return geqsym; }
 \(           { tok2ast(lparensym); return lparensym; }
 \)           { tok2ast(rparensym); return rparensym; }
 {IDENT}      { ident2ast(yytext); return identsym; }

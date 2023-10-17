@@ -70,75 +70,69 @@ static void number2ast(unsigned int val)
 
 %}
 
- /* you can add actual definitions below */
+  /* you can add actual definitions below */
 
-IDENT		    {LETTER}({LETTERORDIGIT}*)
 LETTER          [_a-zA-Z]
 NUMBER          {DIGIT}({DIGIT}*)
 DIGIT           [0-9]
-LETTERORDIGIT   ({LETTER|DIGIT})
-IGNORED         ({BLANK|TAB|VT|FORMFEED|EOL|COMMENT})
-BLANK           [ ] /* could be wrong */
+LETTERORDIGIT   ({LETTER}|{DIGIT})
+IDENT		    {LETTER}({LETTERORDIGIT}*)
+ /* could be wrong */
+BLANK           [ ]
 TAB             \t
 VT              \v
 FORMFEED        \f
 NEWLINE         \n
 CR              \r
 EOL             ({NEWLINE}|({CR}{NEWLINE}))
+IGNORED         ({BLANK}|{TAB}|{VT}|{FORMFEED}|{EOL})
 COMMENT         ({POUNDSIGN}({NONNL}*){NEWLINE})
 POUNDSIGN       #
 NONNL           .
 
 
- /* the rules section starts after the %% below */
+  /* the rules section starts after the %% below */
 
 %%
-
- /* fill in the rules for your lexer here! */
-
-{IGNORED}       { ; } /* do nothing */
-{COMMENT}       { ; } /* ignore comments */
-{EOL}           { ; } /* ignore EOL outside of the above states */
-
-+           { tok2ast(plussym); return plussym; } 
--           { tok2ast(minussym); return minussym; }
-*           { tok2ast(multsym); return multsym; }
-/           { tok2ast(divsym); return divsym; }
-.           { tok2ast(periodsym); return periodsym; }
-;           { tok2ast(semisym); return semisym; }
-=           { tok2ast(eqsym); return eqsym; }
-,           { tok2ast(commasym); return commasym; }
-:=          { tok2ast(becomessym); return becomessym; }
-const       { tok2ast(constsym); return constsym; }
-var         { tok2ast(varsym); return varsym; }
-procedure   { tok2ast(proceduresym); return proceduresym; }
-call        { tok2ast(callsym); return callsym; }
-begin       { tok2ast(beginsym); return beginsym; }
-end         { tok2ast(endsym); return endsym; }
-if          { tok2ast(ifsym); return ifsym; }
-then        { tok2ast(thensym); return thensym; }
-else        { tok2ast(elsesym); return elsesym; }
-while       { tok2ast(whilesym); return whilesym; }
-do          { tok2ast(dosym); return dosym; }
-read        { tok2ast(read); return read; }
-write       { tok2ast(writesym); return writesym; }
-skip        { tok2ast(skipsym); return skipsym; }
-odd         { tok2ast(oddsym); return oddsym; }
-<>          { tok2ast(neqsym); return neqsym; }
-<           { tok2ast(ltsym); return ltsym; }
-<=          { tok2ast(leqsym); return leqsym; }
->           { tok2ast(gtsym); return gtsym; }
->=          { tok2ast(geqsym); return geqsym; }
-(           { tok2ast(lparensym); return lparensym; }
-)           { tok2ast(rparensym); return rparensym; }
-
-{IDENT}         { ident2ast(yytext); return identsym; }
-
-.           { char msgbuf[128]; sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext); yyerror(lexer_filename(), msgbuf);}
-
-
- /* $Id: pl0_lexer_user_code.c,v 1.3 2023/10/06 11:12:37 leavens Exp leavens $ */
-
+  /* fill in the rules for your lexer here! */
+{COMMENT}       { ; }
+{IGNORED}       { ; }
+\+           { tok2ast(plussym); return plussym; } 
+\-           { tok2ast(minussym); return minussym; }
+\*           { tok2ast(multsym); return multsym; }
+\/           { tok2ast(divsym); return divsym; } 
+\.           { tok2ast(periodsym); return periodsym; }
+\;           { tok2ast(semisym); return semisym; }
+\=           { tok2ast(eqsym); return eqsym; }
+\,           { tok2ast(commasym); return commasym; }
+:=           { tok2ast(becomessym); return becomessym; }
+const        { tok2ast(constsym); return constsym; }
+var          { tok2ast(varsym); return varsym; }
+procedure    { tok2ast(proceduresym); return proceduresym; }
+call         { tok2ast(callsym); return callsym; }
+begin        { tok2ast(beginsym); return beginsym; }
+end          { tok2ast(endsym); return endsym; }
+if           { tok2ast(ifsym); return ifsym; }
+then         { tok2ast(thensym); return thensym; }
+else         { tok2ast(elsesym); return elsesym; }
+while        { tok2ast(whilesym); return whilesym; }
+do           { tok2ast(dosym); return dosym; }
+read         { tok2ast(read); return read; }
+write        { tok2ast(writesym); return writesym; }
+skip         { tok2ast(skipsym); return skipsym; }
+odd          { tok2ast(oddsym); return oddsym; }
+\<>          { tok2ast(neqsym); return neqsym; }
+\<           { tok2ast(ltsym); return ltsym; }
+\<=          { tok2ast(leqsym); return leqsym; }
+\>           { tok2ast(gtsym); return gtsym; }
+>=           { tok2ast(geqsym); return geqsym; }
+\(           { tok2ast(lparensym); return lparensym; }
+\)           { tok2ast(rparensym); return rparensym; }
+{IDENT}      { ident2ast(yytext); return identsym; }
+.   { char msgbuf[512];
+      sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext);
+      yyerror(lexer_filename(), msgbuf);
+    }
 %% 
 
  /* This code goes in the user code section of the pl0_lexer.l file,

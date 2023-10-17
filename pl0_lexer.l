@@ -147,7 +147,7 @@ odd          { tok2ast(oddsym); return oddsym; }
 \>=          { tok2ast(geqsym); return geqsym; }
 \(           { tok2ast(lparensym); return lparensym; }
 \)           { tok2ast(rparensym); return rparensym; }
-{NUMBER}     { number2ast(yylexToInt(yytext)); return numbersym; }
+{NUMBER}     { number2ast(yytext); return numbersym; }
 {IDENT}      { ident2ast(yytext); return identsym; }
 .   { char msgbuf[512];
       sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext);

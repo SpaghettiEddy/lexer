@@ -1079,13 +1079,22 @@ YY_RULE_SETUP
 case 35:
 YY_RULE_SETUP
 #line 132 "pl0_lexer.l"
-{  unsigned long yynum; 
-                if(strlen(yytext) >= INT_MAX) return printf("ERROR strlen is too long\n");
-                yynum = atoi(yytext); number2ast(yynum); return numbersym; }
+{  unsigned long len;
+                len = strlen(yytext);
+                if(len >= 10){
+                    char msgbuf[512]; 
+                    sprintf(msgbuf, "Number (%s) is too large!", yytext);
+                    yyerror(lexer_filename(), msgbuf);
+                }
+                unsigned long yynum;
+                yynum = atoi(yytext); 
+                number2ast(yynum); 
+                return numbersym; 
+             }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 135 "pl0_lexer.l"
+#line 144 "pl0_lexer.l"
 { char msgbuf[512];
       sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext);
       yyerror(lexer_filename(), msgbuf);
@@ -1093,10 +1102,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 139 "pl0_lexer.l"
+#line 148 "pl0_lexer.l"
 ECHO;
 	YY_BREAK
-#line 1100 "pl0_lexer.c"
+#line 1109 "pl0_lexer.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2113,7 +2122,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 139 "pl0_lexer.l"
+#line 148 "pl0_lexer.l"
 
 
  /* This code goes in the user code section of the pl0_lexer.l file,

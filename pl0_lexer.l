@@ -128,9 +128,18 @@ odd          { tok2ast(oddsym); return oddsym; }
 \(           { tok2ast(lparensym); return lparensym; }
 \)           { tok2ast(rparensym); return rparensym; }
 {IDENT}      { ident2ast(yytext); return identsym; }
-{NUMBER}     {  unsigned long yynum; 
-                if(strlen(yytext) >= INT_MAX) return printf("ERROR strlen is too long\n");
-                yynum = atoi(yytext); number2ast(yynum); return numbersym; }
+{NUMBER}     {  unsigned long len;
+                len = strlen(yytext);
+                if(len >= 10){
+                    char msgbuf[512]; 
+                    sprintf(msgbuf, "Number (%s) is too large!", yytext);
+                    yyerror(lexer_filename(), msgbuf);
+                }
+                unsigned long yynum;
+                yynum = atoi(yytext); 
+                number2ast(yynum); 
+                return numbersym; 
+             }
 .   { char msgbuf[512];
       sprintf(msgbuf, "invalid character: '%c' ('\\0%o')", *yytext, *yytext);
       yyerror(lexer_filename(), msgbuf);
